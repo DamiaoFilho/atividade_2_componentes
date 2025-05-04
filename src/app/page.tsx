@@ -14,6 +14,16 @@ export default function Home() {
     setTasks([...tasks, {title:name, description:description}])
   }
 
+  const removeTask = (name: string) => {
+    setTasks(tasks.filter(task => task.title !== name));
+  }
+
+  const updateTask = (oldName: string, newName: string, newDescription: string) => {
+    setTasks(tasks.map(task => 
+      task.title === oldName ? { title: newName, description: newDescription } : task
+    ));
+  }
+
   return (
     <div className="flex flex-col gap-5 justify-center items-center min-h-screen min-w-screen">
       <h1 className="text-black font-bold p-2 font text-3xl">
@@ -23,7 +33,7 @@ export default function Home() {
 
       <div className="flex flex-row justify-around w-3xl gap-2">
         {tasks.map((task, index) => (
-          <Card key={index} name={task.title} description={task.description} />
+          <Card udpateTask={updateTask} removeTask={removeTask} key={index} name={task.title} description={task.description} />
         ))}
       </div>
     </div>
