@@ -1,7 +1,7 @@
 "use client"
 import MainCard from "./components/main_card";
 import Card from "./components/card";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 interface Task{
   title: string;
   description: string;
@@ -9,6 +9,17 @@ interface Task{
 
 export default function Home() {
   const [tasks, setTasks] = useState<Task[]>([]);
+  
+  useEffect(() => {
+    const storedTasks = localStorage.getItem("tasks");
+    if(storedTasks){
+      setTasks(JSON.parse(storedTasks))
+    }
+  }, []);
+
+  useEffect(() => {
+    localStorage.setItem("tasks", JSON.stringify(tasks))
+  }, [tasks]);
 
   const addTask = (name: string, description: string) => {
     setTasks([...tasks, {title:name, description:description}])
